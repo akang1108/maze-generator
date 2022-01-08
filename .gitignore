@@ -1,0 +1,12 @@
+.project
+.idea
+.gradle
+
+target/
+out/
+build/
+logs/
+node_modules/
+
+.DS_Store
+

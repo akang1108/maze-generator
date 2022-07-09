@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * This implementation is following iterative algorithm:
@@ -17,6 +18,7 @@ import java.util.Set;
  *          Choose one of the unvisited neighbours
  *          Remove the wall between the current cell and the chosen cell
  *          Mark the chosen cell as visited and push it to the stack
+ *
  */
 public class MazeGeneratorDepthFirst implements MazeGenerator {
     @Override
@@ -53,16 +55,64 @@ public class MazeGeneratorDepthFirst implements MazeGenerator {
             cells.add(cellsRow);
         }
 
-//        //
-//        // Now do stuff
-//        //
-//        Stack<Cell> stack = new Stack<>();
-//        stack.push(cells.get(0).get(0));
-//
-//        while (!stack.isEmpty()) {
-//
-//        }
+
+        //
+        // Now do stuff
+        //
+        /*
+         * Choose the initial cell, mark it as visited and push it to the stack
+         * While the stack is not empty
+         *      Pop a cell from the stack and make it a current cell
+         *      If the current cell has any neighbours which have not been visited
+         *          Push the current cell to the stack
+         *          Choose one of the unvisited neighbours
+         *          Remove the wall between the current cell and the chosen cell
+         *          Mark the chosen cell as visited and push it to the stack
+         */
+        Stack<Cell> stack = new Stack<>();
+        Set<Cell> visited = new HashSet<>();
+        Cell cell = cells.get(0).get(0);
+        visited.add(cell);
+        stack.push(cell);
+
+        while (!stack.isEmpty()) {
+            cell = stack.pop();
+
+            // Find unvisited neighbors
+            Set<Cell> neighbors = getNeighbors(cell, height, width);
+            neighbors.removeAll(visited);
+
+            if (neighbors.size() > 0) {
+                stack.push(cell);
+                Cell neighbor = neighbors.stream().findFirst().get();
+                walls.remove(new Wall(cell, neighbor));
+                visited.add(neighbor);
+                stack.push(neighbor);
+            }
+        }
 
         return new Maze(height, width, cells, walls);
     }
+
+    private Set<Cell> getNeighbors(Cell cell, int height, int width) {
+        int x = cell.x();
+        int y = cell.y();
+
+        Cell[] possibleNeighbors = {
+            new Cell(x - 1, y - 1), new Cell(x, y - 1), new Cell(x + 1, y - 1),
+            new Cell(x - 1, y    ),                     new Cell(x + 1, y    ),
+            new Cell(x - 1, y + 1), new Cell(x, y + 1), new Cell(x + 1, y + 1)
+        };
+
+        Set<Cell> neighbors = new HashSet<>();
+
+        for (Cell c: possibleNeighbors) {
+            if (c.x() >= 0 && c.x() < width && c.y() >=0 && c.y() < height) {
+                neighbors.add(c);
+            }
+        }
+
+        return neighbors;
+    }
+
 }

@@ -9,11 +9,11 @@ public class Cell {
         this.y = y;
     }
 
-    public int getX() {
+    public int x() {
         return x;
     }
 
-    public int getY() {
+    public int y() {
         return y;
     }
 
@@ -33,5 +33,13 @@ public class Cell {
         int result = x;
         result = 31 * result + y;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

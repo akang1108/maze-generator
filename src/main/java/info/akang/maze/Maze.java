@@ -54,11 +54,11 @@ public class Maze {
     }
 
     public boolean wallRight(Cell cell) {
-        return cellWallCheck(cell, (cell1, cell2) -> cell1.getX() + 1 == cell2.getX() && cell1.getY() == cell2.getY());
+        return cellWallCheck(cell, (cell1, cell2) -> cell1.x() + 1 == cell2.x() && cell1.y() == cell2.y());
     }
 
     public boolean wallDown(Cell cell) {
-        return cellWallCheck(cell, (cell1, cell2) -> cell1.getX() == cell2.getX() && cell1.getY() + 1 == cell2.getY());
+        return cellWallCheck(cell, (cell1, cell2) -> cell1.x() == cell2.x() && cell1.y() + 1 == cell2.y());
     }
 
     public boolean cellWallCheck(Cell cell, BiPredicate<Cell, Cell> cellPredicate) {

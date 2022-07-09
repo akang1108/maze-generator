@@ -7,7 +7,7 @@ public class MazeDisplaySimple implements MazeDisplay {
 //    private static final String WALL = "■";
     private static final String WALL = "█";
 //    private static final String WALL = "*";
-    private static final String OPEN = " ";
+    private static final String OPEN = "O";
 
     public String display(Maze maze) {
         List<List<String>> grid = createGrid(maze);
@@ -22,7 +22,7 @@ public class MazeDisplaySimple implements MazeDisplay {
         // 1st row wall
         grid.add(createWallRow(maze));
 
-        for (int row = 0; row < maze.getHeight(); row++) {
+        for (int row = 0; row < maze.getHeight() - 1; row++) {
             List<String> r = new ArrayList<>();
 
             // 1st col wall
